@@ -3,52 +3,55 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
         $products = Product::all();
 
-            return response()->json([
-                'success' => "true",
-                'message' => "List Data Products",
-                'data' => $products
-            ], 200);
-    }
-    public function show(Product $products)
-    {
         return response()->json([
-            'success' => "true",
-            'message' => "Detail Data Product",
-            'data' => $products
+            'success' => 'true',
+            'message' => 'List Data Products',
+            'data' => $products,
         ], 200);
     }
-    public function store(Request $request)
+
+    public function show(Product $product): JsonResponse
     {
-        //validasi data
-        $request->validate([
+        return response()->json([
+            'success' => 'true',
+            'message' => 'Detail Data Product',
+            'data' => $product,
+        ], 200);
+    }
+
+    public function store(Request $request): JsonResponse
+    {
+        $validatedData = $request->validate([
             'name' => 'required|max:25',
             'price' => 'required|integer',
             'description' => 'required|max:255',
         ]);
-        //ambil input
-        $product = Product::create($request->all());
-        //simpan ke database
+
+        $product = Product::create($validatedData);
+
         return response()->json([
-            'success' => "true",
-            'message' => "Product created successfully",
-            'data' => $product
+            'success' => 'true',
+            'message' => 'Product created successfully',
+            'data' => $product,
         ], 201);
     }
-    public function destroy(Product $products)
+
+    public function destroy(Product $product): JsonResponse
     {
-        $products->delete();
-        
+        $product->delete();
+
         return response()->json([
-            'success' => "true",
-            'message' => "product deleted successfully",
+            'success' => 'true',
+            'message' => 'product deleted successfully',
         ], 200);
     }
 }
