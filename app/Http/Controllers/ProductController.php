@@ -54,4 +54,20 @@ class ProductController extends Controller
             'message' => 'product deleted successfully',
         ], 200);
     }
+    public function update(Request $request, Product $product): JsonResponse
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|max:25',
+            'price' => 'required|integer',
+            'description' => 'required|max:255',
+        ]);
+
+        $product->update($validatedData);
+
+        return response()->json([
+            'success' => 'true',
+            'message' => 'Product updated successfully',
+            'data' => $product,
+        ], 200);
+    }
 }

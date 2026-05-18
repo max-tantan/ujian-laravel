@@ -8,4 +8,5 @@ Route::apiResource('products', ProductController::class)->only([
     'show',
     'store',
     'destroy',
+    'update',
 ]);
