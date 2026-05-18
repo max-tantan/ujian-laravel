@@ -42,4 +42,13 @@ class ProductController extends Controller
             'data' => $product
         ], 201);
     }
+    public function destroy(Product $products)
+    {
+        $products->delete();
+        
+        return response()->json([
+            'success' => "true",
+            'message' => "product deleted successfully",
+        ], 200);
+    }
 }
